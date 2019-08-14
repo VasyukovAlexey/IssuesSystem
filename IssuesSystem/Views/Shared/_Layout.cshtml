@@ -9,7 +9,7 @@
     @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
 </head>
 <body>
- 
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -20,5 +20,9 @@
 
     <script src="~/Scripts/jquery-3.0.0.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+
 </body>
 </html>
