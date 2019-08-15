@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
@@ -82,11 +84,26 @@ public class IssuesListController : Controller
         {
             using (IssuesSystemDBEntities IssuesDB = new IssuesSystemDBEntities())
             {
+                issue.State = 1;
+                issue.DateCreated=DateTime.Now;
                 IssuesDB.Issues.Add(issue);
                 IssuesDB.SaveChanges();
-                return Json(new {success = true, message = "Saved Issue Successfully"}, JsonRequestBehavior.AllowGet);
+
+                using (SqlCommand comm = new SqlCommand(string.Empty,new SqlConnection(IssuesDB.Database.Connection.ConnectionString)))
+                {
+
+                    comm.CommandText = ($"insert into IssueStateChanges (IdIssue,State,DateChanged) values ({issue.Id},{issue.State},@date_operation)");
+                    comm.Parameters.Add(
+                        "@date_operation", SqlDbType.DateTime, 80).Value = issue.DateCreated;
+                    comm.Connection.Open();
+                    comm.ExecuteNonQuery();
+                }
             }
-            return View();
+
+            
+
+            return Json(new { success = true, message = "Saved Issue Successfully" }, JsonRequestBehavior.AllowGet);
+            //return View();
         }
     }
 }
