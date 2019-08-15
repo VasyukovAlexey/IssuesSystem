@@ -5,8 +5,8 @@
 
 <h2>Here you can see an Issues List</h2>
 
-<a class="btn border" style="margin-bottom: 10px"><i class="fa fa-plus"></i>Add New</a>
-<table id="issuesList" class="table table-bordered table-striped">
+<a class="btn border" style="margin-bottom: 10px" onclick="PopupForm('@Url.Action("AddOrEdit","IssuesList")')"><i class="fa fa-plus"></i>Add New</a>
+<table id="issuesList" class="table table-bordered table-striped" style="width: 100%">
     <thead>
         <tr>
             <th>Issue</th>
@@ -26,9 +26,11 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
+
+        var Popup, dataTable;
         $(document).ready(function()
         {
-            $("#issuesList").DataTable({
+          dataTable =  $("#issuesList").DataTable({
                 "ajax": {
                     "url": "IssuesList/CollectIssuesList",
                     "type": "GET",
@@ -39,9 +41,32 @@
                     { "data": "Description", "orderable": false  },
                     { "data": "State", "orderable": true},
                     { "data": "DateCreated", "orderable": true}
-                ]
+                ],
+                language: {
+                    "emptyTable": "No issues found, Please <b>add</b> one"
+                }
             });
         
-    });
+        });
+
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+
+            $.get(url)
+                .done(function(response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Issue details',
+                        height: 500,
+                        width: 700,
+                        close: function() {
+                            Popup.dialog('destroy').remove();
+                        }
+                });
+                });
+        }
     </script>>
 }
