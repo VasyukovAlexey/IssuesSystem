@@ -2,11 +2,11 @@
 @{
     Layout = null;
 }
-
+                                                                                                         @*Выводим форму заполнения заявки*@
 @using (Html.BeginForm("AddIssue", "IssuesList", FormMethod.Post,new {onsubmit="return SubmitForm(this)"}))
 {
-    @*@Html.HiddenFor(model => model.Id)*@
-
+    
+                                                                                                  //Для заведения требуется только одно описание.
     <div class="form-group" >
         @Html.LabelFor(model => model.Description, new { @class = "col-form-label" })
         <div class="input-group">

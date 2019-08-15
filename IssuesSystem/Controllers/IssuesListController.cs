@@ -25,14 +25,16 @@ public class IssuesListController : Controller
     {
         
 
-        // GET: IssuesList
+        
         public ActionResult Index()
         {
             return View();
         }
 
+
         public ActionResult CollectIssuesList()
         {
+                            //Перечень статусов заявок
             Dictionary<int, string> States =
                 new Dictionary<int, string>
                 {
@@ -43,10 +45,11 @@ public class IssuesListController : Controller
 
 
                 };
+
             using (IssuesSystemDBEntities issuesDB = new IssuesSystemDBEntities())
-            {
+            {                                   
                 List<Issue> issuesList = issuesDB.Issues.ToList<Issue>();
-                
+                    //Формируем особый, уличный, перечень заявок для отображения в таблице, взяв за основу перечень из базы
                 List< IssueListToSend> issueListToSends  = new List<IssueListToSend>();
                 foreach (var issue in issuesList)
                 {
@@ -62,7 +65,6 @@ public class IssuesListController : Controller
                         new IssueListToSend()
                         {
                             Id = issue.Id,
-                            //State = issue.State,
                             State = s,
                             Description = issue.Description,
                             DateCreated = issue.DateCreated.ToString()
@@ -73,22 +75,24 @@ public class IssuesListController : Controller
         }
         }
 
-        [HttpGet]
+        [HttpGet]               //Отправляем новый пустой объект заявки
         public ActionResult AddIssue(int Id=0)
         {
             return View(new Issue());
         }
 
-        [HttpPost]
+        [HttpPost]                          //Получаем заполненный объект заявки
         public ActionResult AddIssue(Issue issue)
         {
             using (IssuesSystemDBEntities IssuesDB = new IssuesSystemDBEntities())
             {
+                            //Создаём новую заявку в базе
                 issue.State = 1;
                 issue.DateCreated=DateTime.Now;
                 IssuesDB.Issues.Add(issue);
                 IssuesDB.SaveChanges();
-
+                                        
+                                            //Создаём запись об изменении статуса заявки
                 using (SqlCommand comm = new SqlCommand(string.Empty,new SqlConnection(IssuesDB.Database.Connection.ConnectionString)))
                 {
 
@@ -101,7 +105,7 @@ public class IssuesListController : Controller
             }
 
             
-
+            
             return Json(new { success = true, message = "Saved Issue Successfully" }, JsonRequestBehavior.AllowGet);
             //return View();
         }

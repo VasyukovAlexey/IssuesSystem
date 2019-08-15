@@ -4,8 +4,10 @@
 }
 
 <h2>Here you can see an Issues List</h2>
-
+                                                            @*Кнопка для новой заявки*@
 <a class="btn border" style="margin-bottom: 10px" onclick="PopupForm('@Url.Action("AddIssue","IssuesList")')"><i class="fa fa-plus"></i>Add New</a>
+
+                                                            @*Собственно таблица*@
 <table id="issuesList" class="table table-bordered table-striped" style="width: 100%">
     <thead>
         <tr>
@@ -26,7 +28,7 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
-
+                                                           //AJAX запрос для таблицы заявок
         var Popup, dataTable;
         $(document).ready(function()
         {
@@ -41,14 +43,15 @@
                     { "data": "Description", "orderable": false  },
                     { "data": "State", "orderable": true},
                     { "data": "DateCreated", "orderable": true}
-                ],
+              ],
+                                                                            //Если заявок в базе нет
                 language: {
                     "emptyTable": "No issues found, Please <b>add</b> one"
                 }
             });
         
         });
-
+                                                    //Рисуем форму заполнения новой заявки
         function PopupForm(url) {
             var formDiv = $('<div/>');
 
@@ -68,7 +71,7 @@
                 });
                 });
         }
-
+                                                //отправляем AJAX данных из формы в контроллер
         function SubmitForm(form) {
             $.ajax({
                 type: "POST",
