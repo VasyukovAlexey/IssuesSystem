@@ -5,6 +5,7 @@
 
 <h2>Here you can see an Issues List</h2>
 
+<a class="btn border" style="margin-bottom: 10px"><i class="fa fa-plus"></i>Add New</a>
 <table id="issuesList" class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -18,6 +19,7 @@
 </table>
 
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 @section scripts{
 
 
@@ -33,10 +35,10 @@
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "Id" },
-                    { "data": "Description" },
-                    { "data": "State" },
-                    { "data": "DateCreated" }
+                    { "data": "Id", "orderable": false },
+                    { "data": "Description", "orderable": false  },
+                    { "data": "State", "orderable": true},
+                    { "data": "DateCreated", "orderable": true}
                 ]
             });
         
