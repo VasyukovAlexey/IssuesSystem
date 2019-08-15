@@ -69,5 +69,17 @@ public class IssuesListController : Controller
                 return Json(new { data = issueListToSends }, JsonRequestBehavior.AllowGet);
         }
         }
+
+        [HttpGet]
+        public ActionResult AddOrEdit(int Id=0)
+        {
+            return View(new Issue());
+        }
+
+        [HttpPost]
+        public ActionResult AddOrEdit()
+        {
+            return View();
+        }
     }
 }
