@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
@@ -77,8 +78,14 @@ public class IssuesListController : Controller
         }
 
         [HttpPost]
-        public ActionResult AddOrEdit()
+        public ActionResult AddOrEdit(Issue issue)
         {
+            using (IssuesSystemDBEntities IssuesDB = new IssuesSystemDBEntities())
+            {
+                IssuesDB.Issues.Add(issue);
+                IssuesDB.SaveChanges();
+                return Json(new {success = true, message = "Saved Issue Successfully"}, JsonRequestBehavior.AllowGet);
+            }
             return View();
         }
     }
