@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("AddOrEdit", "IssuesList", FormMethod.Post,new {onsubmit="return SubmitForm(this)"}))
+@using (Html.BeginForm("AddIssue", "IssuesList", FormMethod.Post,new {onsubmit="return SubmitForm(this)"}))
 {
     @*@Html.HiddenFor(model => model.Id)*@
 

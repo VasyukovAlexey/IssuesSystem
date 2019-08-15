@@ -74,13 +74,13 @@ public class IssuesListController : Controller
         }
 
         [HttpGet]
-        public ActionResult AddOrEdit(int Id=0)
+        public ActionResult AddIssue(int Id=0)
         {
             return View(new Issue());
         }
 
         [HttpPost]
-        public ActionResult AddOrEdit(Issue issue)
+        public ActionResult AddIssue(Issue issue)
         {
             using (IssuesSystemDBEntities IssuesDB = new IssuesSystemDBEntities())
             {
